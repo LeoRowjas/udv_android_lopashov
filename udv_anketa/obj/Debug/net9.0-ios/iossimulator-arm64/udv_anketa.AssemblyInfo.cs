@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("udv_anketa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+e5d7149a997c9777e437674af84b72c21e268413")]
 [assembly: System.Reflection.AssemblyProductAttribute("udv_anketa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("udv_anketa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
