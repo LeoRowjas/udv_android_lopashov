@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Sdam.Views.SubjectFormPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Sdam.ViewModels"
+    x:DataType="vm:SubjectFormViewModel"
+    Title="{Binding PageTitle}">
+
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,20" Spacing="6">
+
+                <Label Style="{StaticResource FieldLabel}" Text="Название" />
+                <Border>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding ShowNameError}" Value="True">
+                            <Setter Property="Style" Value="{StaticResource FieldError}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding ShowNameError}" Value="False">
+                            <Setter Property="Style" Value="{StaticResource Field}" />
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Entry Placeholder="Например, Базы данных" Text="{Binding Name}" MaxLength="60" />
+                </Border>
+                <Label Style="{StaticResource ErrorText}" Text="Введите название" IsVisible="{Binding ShowNameError}" />
+
+                <Label Style="{StaticResource FieldLabel}" Text="Преподаватель" />
+                <Border Style="{StaticResource Field}">
+                    <Entry Placeholder="Необязательно" Text="{Binding Teacher}" MaxLength="80" />
+                </Border>
+
+                <Label Style="{StaticResource FieldLabel}" Text="Цвет" />
+                <CollectionView
+                    ItemsSource="{Binding ColorOptions}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedColor}"
+                    HeightRequest="104">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="4" VerticalItemSpacing="8" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ColorOption">
+                            <Grid Style="{StaticResource ListItem}" HeightRequest="48">
+                                <Border
+                                    WidthRequest="48"
+                                    HeightRequest="48"
+                                    StrokeShape="RoundRectangle 24"
+                                    StrokeThickness="3"
+                                    Stroke="{Binding Ring}"
+                                    Padding="4"
+                                    HorizontalOptions="Center">
+                                    <BoxView Color="{Binding Color}" CornerRadius="18" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            Grid.Row="1"
+            Text="Сохранить"
+            Command="{Binding SaveCommand}"
+            Margin="20,8,20,20" />
+    </Grid>
+
+</ContentPage>

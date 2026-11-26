@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Палитра из паспорта проекта. Для Android см. также Platforms/Android/Resources/values/colors.xml -->
+
+    <Color x:Key="Bg">#F7F6F2</Color>
+    <Color x:Key="Bg2">#ECEAE3</Color>
+    <Color x:Key="Surface">#FFFFFD</Color>
+    <Color x:Key="Ink">#141414</Color>
+    <Color x:Key="Grey">#66655F</Color>
+    <Color x:Key="Rule">#CFCCC3</Color>
+    <Color x:Key="Danger">#C8361E</Color>
+
+    <Color x:Key="Primary">#141414</Color>
+    <Color x:Key="White">White</Color>
+    <Color x:Key="Black">Black</Color>
+
+</ResourceDictionary>

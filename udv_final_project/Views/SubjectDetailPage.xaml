@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Sdam.Views.SubjectDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Sdam.ViewModels"
+    x:DataType="vm:SubjectDetailViewModel"
+    Title="Предмет">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Изменить" Command="{Binding EditCommand}" />
+        <ToolbarItem Text="Удалить" Command="{Binding DeleteCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <VerticalStackLayout Padding="20,8,20,8" Spacing="4">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <BoxView
+                    Color="{Binding Color}"
+                    WidthRequest="14"
+                    HeightRequest="14"
+                    CornerRadius="7"
+                    VerticalOptions="Start"
+                    Margin="0,12,0,0" />
+                <Label Grid.Column="1" Style="{StaticResource TitleXL}" Text="{Binding Name}" />
+            </Grid>
+            <Label Style="{StaticResource Caption}" Text="{Binding Teacher}" IsVisible="{Binding HasTeacher}" />
+            <Label Text="{Binding ProgressText}" FontFamily="OpenSansSemibold" FontSize="14" Margin="0,12,0,0" />
+            <ProgressBar Progress="{Binding Progress}" ProgressColor="{Binding Color}" />
+            <Label Style="{StaticResource GroupHeader}" Text="Задания" TextColor="{StaticResource Grey}" Padding="0,16,0,0" />
+        </VerticalStackLayout>
+
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Items}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem}"
+            IsVisible="{Binding HasItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:AssignmentItem">
+                    <Grid
+                        Style="{StaticResource ListItem}"
+                        Padding="20,12,20,0"
+                        ColumnDefinitions="*,Auto"
+                        RowDefinitions="Auto,Auto,Auto"
+                        ColumnSpacing="12"
+                        Opacity="{Binding ItemOpacity}">
+                        <Label Style="{StaticResource ItemTitle}" Text="{Binding Title}" />
+                        <Label Grid.Row="1" Style="{StaticResource Caption}" Text="{Binding Subtitle}" />
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding DueText}"
+                            TextColor="{Binding DueColor}"
+                            FontSize="14"
+                            HorizontalTextAlignment="End" />
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            HeightRequest="1"
+                            Color="{StaticResource Rule}"
+                            Margin="0,12,0,0" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label
+            Grid.Row="1"
+            Style="{StaticResource Caption}"
+            Text="По этому предмету пока нет заданий"
+            IsVisible="{Binding IsEmpty}"
+            Padding="20,8" />
+
+        <Button
+            Grid.Row="2"
+            Style="{StaticResource OutlineButton}"
+            Text="Новое задание"
+            Command="{Binding AddAssignmentCommand}"
+            Margin="20,8,20,20" />
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Sdam.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Sdam.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Сдам!">
+
+    <TabBar>
+        <ShellContent
+            Title="Дедлайны"
+            Icon="tab_deadlines.png"
+            Route="deadlines"
+            ContentTemplate="{DataTemplate views:DeadlinesPage}" />
+        <ShellContent
+            Title="Предметы"
+            Icon="tab_subjects.png"
+            Route="subjects"
+            ContentTemplate="{DataTemplate views:SubjectsPage}" />
+        <ShellContent
+            Title="Сдано"
+            Icon="tab_done.png"
+            Route="done"
+            ContentTemplate="{DataTemplate views:DonePage}" />
+    </TabBar>
+
+</Shell>

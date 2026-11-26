@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Sdam.Views.DeadlinesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Sdam.ViewModels"
+    x:DataType="vm:DeadlinesViewModel"
+    Title="Дедлайны">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Фильтр по предмету -->
+        <CollectionView
+            Grid.Row="0"
+            ItemsSource="{Binding Filters}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedFilter}"
+            IsVisible="{Binding HasSubjects}"
+            HeightRequest="52"
+            Margin="16,4,0,4">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:FilterChip">
+                    <Grid Style="{StaticResource ListItem}" Padding="0,6">
+                        <Border
+                            Padding="14,0"
+                            StrokeThickness="1.5"
+                            Stroke="{StaticResource Rule}"
+                            StrokeShape="RoundRectangle 20"
+                            BackgroundColor="{Binding Background}">
+                            <HorizontalStackLayout Spacing="8">
+                                <BoxView
+                                    IsVisible="{Binding HasDot}"
+                                    Color="{Binding DotColor}"
+                                    WidthRequest="10"
+                                    HeightRequest="10"
+                                    CornerRadius="5"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Text="{Binding Name}"
+                                    TextColor="{Binding Foreground}"
+                                    FontSize="14"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Лента, сгруппированная по сроку -->
+        <CollectionView
+            Grid.Row="1"
+            ItemsSource="{Binding Groups}"
+            IsGrouped="True"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedItem}"
+            IsVisible="{Binding HasItems}">
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="vm:AssignmentGroup">
+                    <Label
+                        Style="{StaticResource GroupHeader}"
+                        Text="{Binding Name}"
+                        TextColor="{Binding HeaderColor}" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:AssignmentItem">
+                    <Grid
+                        Style="{StaticResource ListItem}"
+                        Padding="20,12,20,0"
+                        ColumnDefinitions="Auto,*,Auto"
+                        RowDefinitions="Auto,Auto,Auto"
+                        ColumnSpacing="12"
+                        Opacity="{Binding ItemOpacity}">
+                        <BoxView
+                            Grid.RowSpan="2"
+                            Color="{Binding SubjectColor}"
+                            WidthRequest="12"
+                            HeightRequest="12"
+                            CornerRadius="6"
+                            VerticalOptions="Start"
+                            Margin="0,6,0,0" />
+                        <Label Grid.Column="1" Style="{StaticResource ItemTitle}" Text="{Binding Title}" />
+                        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource Caption}" Text="{Binding Subtitle}" />
+                        <Label
+                            Grid.Column="2"
+                            Text="{Binding DueText}"
+                            TextColor="{Binding DueColor}"
+                            FontSize="14"
+                            HorizontalTextAlignment="End" />
+                        <Label
+                            Grid.Column="2"
+                            Grid.Row="1"
+                            Text="важно"
+                            IsVisible="{Binding IsHighPriority}"
+                            TextColor="{StaticResource Danger}"
+                            FontSize="13"
+                            HorizontalOptions="End" />
+                        <BoxView
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            HeightRequest="1"
+                            Color="{StaticResource Rule}"
+                            Margin="0,12,0,0" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <BoxView HeightRequest="96" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+
+        <!-- Пустое состояние -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            IsVisible="{Binding IsEmpty}"
+            VerticalOptions="Center"
+            Padding="32"
+            Spacing="10">
+            <Label Style="{StaticResource Title2}" Text="{Binding EmptyTitle}" HorizontalTextAlignment="Center" />
+            <Label Style="{StaticResource Caption}" Text="{Binding EmptyText}" HorizontalTextAlignment="Center" />
+            <Button
+                Text="{Binding EmptyButton}"
+                Command="{Binding EmptyActionCommand}"
+                HorizontalOptions="Center"
+                Margin="0,12,0,0" />
+        </VerticalStackLayout>
+
+        <Button
+            Grid.Row="1"
+            Style="{StaticResource Fab}"
+            Text="+"
+            Command="{Binding AddCommand}"
+            IsVisible="{Binding HasItems}"
+            SemanticProperties.Description="Новое задание" />
+    </Grid>
+
+</ContentPage>

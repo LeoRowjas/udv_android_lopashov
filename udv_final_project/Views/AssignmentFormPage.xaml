@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Sdam.Views.AssignmentFormPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Sdam.ViewModels"
+    x:DataType="vm:AssignmentFormViewModel"
+    Title="{Binding PageTitle}">
+
+    <Grid>
+        <!-- Форма -->
+        <Grid RowDefinitions="*,Auto" IsVisible="{Binding HasSubjects}">
+            <ScrollView>
+                <VerticalStackLayout Padding="20,8,20,20" Spacing="6">
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Предмет" />
+                    <Border Style="{StaticResource Field}">
+                        <Picker
+                            Title="Выберите предмет"
+                            ItemsSource="{Binding Subjects}"
+                            SelectedItem="{Binding SelectedSubject}" />
+                    </Border>
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Название" />
+                    <Border>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding ShowTitleError}" Value="True">
+                                <Setter Property="Style" Value="{StaticResource FieldError}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding ShowTitleError}" Value="False">
+                                <Setter Property="Style" Value="{StaticResource Field}" />
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <Entry Placeholder="Например, Лаба 4" Text="{Binding Title}" MaxLength="120" />
+                    </Border>
+                    <Label Style="{StaticResource ErrorText}" Text="Введите название" IsVisible="{Binding ShowTitleError}" />
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Тип" />
+                    <Border Style="{StaticResource Field}">
+                        <Picker ItemsSource="{Binding Types}" SelectedIndex="{Binding TypeIndex}" />
+                    </Border>
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Срок сдачи" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Border Style="{StaticResource Field}">
+                            <DatePicker Date="{Binding Date}" Format="dd.MM.yyyy" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Field}">
+                            <TimePicker Time="{Binding Time}" Format="HH:mm" />
+                        </Border>
+                    </Grid>
+                    <Label
+                        Style="{StaticResource ErrorText}"
+                        Text="Эта дата уже прошла. Сохранить всё равно можно."
+                        IsVisible="{Binding ShowPastWarning}" />
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Приоритет" />
+                    <Border Style="{StaticResource Field}">
+                        <Picker ItemsSource="{Binding Priorities}" SelectedIndex="{Binding PriorityIndex}" />
+                    </Border>
+
+                    <Label Style="{StaticResource FieldLabel}" Text="Заметка" />
+                    <Border Style="{StaticResource Field}">
+                        <Editor
+                            Placeholder="Что нужно сделать, ссылки, номер варианта"
+                            Text="{Binding Note}"
+                            AutoSize="TextChanges"
+                            MinimumHeightRequest="96" />
+                    </Border>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Button
+                Grid.Row="1"
+                Text="Сохранить"
+                Command="{Binding SaveCommand}"
+                Margin="20,8,20,20" />
+        </Grid>
+
+        <!-- Предметов ещё нет: сначала их нужно создать -->
+        <VerticalStackLayout
+            IsVisible="{Binding ShowNoSubjects}"
+            VerticalOptions="Center"
+            Padding="32"
+            Spacing="10">
+            <Label Style="{StaticResource Title2}" Text="Сначала добавьте предмет" HorizontalTextAlignment="Center" />
+            <Label
+                Style="{StaticResource Caption}"
+                Text="Каждое задание относится к какому-то предмету"
+                HorizontalTextAlignment="Center" />
+            <Button
+                Text="Добавить предмет"
+                Command="{Binding AddSubjectCommand}"
+                HorizontalOptions="Center"
+                Margin="0,12,0,0" />
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>
